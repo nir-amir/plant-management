@@ -45,4 +45,9 @@ public class Plant
     public string SoilTypeId { get; set; }
     public SoilType SoilType { get; set; }
     
+    public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+    
+    public DateTime DateUpdated { get; set; }
+    
+    public DateTime DateExpired { get; set; }
 }

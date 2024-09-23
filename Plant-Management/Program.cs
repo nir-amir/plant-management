@@ -1,9 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using Plant_Management.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+// Dependency Injections
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite());
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
