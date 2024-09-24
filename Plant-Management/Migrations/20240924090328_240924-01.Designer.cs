@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Plant_Management.Models;
 
@@ -10,9 +11,11 @@ using Plant_Management.Models;
 namespace Plant_Management.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240924090328_240924-01")]
+    partial class _24092401
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -117,30 +120,6 @@ namespace Plant_Management.Migrations
                     b.HasIndex("SoilTypeId");
 
                     b.ToTable("Plants");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            CommonName = "Fiddle Leaf Fig",
-                            Cultivar = "Standard",
-                            CustomName = "Fiddle Leaf Fig",
-                            DateCreated = new DateTime(2024, 9, 24, 9, 28, 31, 103, DateTimeKind.Utc).AddTicks(6460),
-                            DateExpired = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateUpdated = new DateTime(2024, 9, 24, 9, 28, 31, 103, DateTimeKind.Utc).AddTicks(6460),
-                            Genus = "Ficus",
-                            Height = 1.5,
-                            HumidityPreference = "Medium",
-                            IsToxic = true,
-                            LightLevel = 75.0,
-                            MaxTemperature = 25.0,
-                            MinTemperature = 18.0,
-                            MoistureLevel = 3.0,
-                            PlantTypeId = "1",
-                            SoilTypeId = "1",
-                            Species = "Lyrata",
-                            Width = 1.0
-                        });
                 });
 
             modelBuilder.Entity("Plant_Management.Models.PlantType", b =>
@@ -156,18 +135,6 @@ namespace Plant_Management.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PlantTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            Name = "Succulent"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            Name = "Fern"
-                        });
                 });
 
             modelBuilder.Entity("Plant_Management.Models.SoilType", b =>
@@ -187,20 +154,6 @@ namespace Plant_Management.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SoilTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            Description = "",
-                            Name = "Sandy"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            Description = "",
-                            Name = "Loamy"
-                        });
                 });
 
             modelBuilder.Entity("Plant_Management.Models.Plant", b =>
@@ -209,17 +162,21 @@ namespace Plant_Management.Migrations
                         .WithMany("Plants")
                         .HasForeignKey("LocationId");
 
-                    b.HasOne("Plant_Management.Models.PlantType", null)
+                    b.HasOne("Plant_Management.Models.PlantType", "PlantType")
                         .WithMany("Plants")
                         .HasForeignKey("PlantTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Plant_Management.Models.SoilType", null)
+                    b.HasOne("Plant_Management.Models.SoilType", "SoilType")
                         .WithMany("Plants")
                         .HasForeignKey("SoilTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("PlantType");
+
+                    b.Navigation("SoilType");
                 });
 
             modelBuilder.Entity("Plant_Management.Models.Location", b =>

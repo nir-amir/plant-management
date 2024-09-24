@@ -16,7 +16,7 @@ public class PlantRepository
         return await _context.Plants.ToListAsync();
     }
 
-    public async Task<Plant> GetPlantByIdAsync(int id)
+    public async Task<Plant> GetPlantByIdAsync(string id)
     {
         return await _context.Plants.FindAsync(id);
     }
@@ -25,12 +25,21 @@ public class PlantRepository
     {
         _context.Plants.Add(plant);
         await _context.SaveChangesAsync();
+        return plant;
     }
 
     public async Task<Plant> UpdatePlantAsync(Plant plant)
     {
+        var existingPlant = await _context.Plants.FindAsync(plant.Id);
+
+        if (existingPlant == null)
+        {
+            return null;
+        }
+        
         _context.Plants.Update(plant);
         await _context.SaveChangesAsync();
+        return existingPlant;
     }
 
     public async Task DeletePlantAsync(Plant plant)

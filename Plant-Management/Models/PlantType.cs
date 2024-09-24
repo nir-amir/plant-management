@@ -11,5 +11,5 @@ public class PlantType
     [StringLength(100)]
     public string Name { get; set; }
     
-    public ICollection<Plant> Plants { get; set; }
+    public ICollection<Plant> Plants { get; set; } = new List<Plant>();
 }
