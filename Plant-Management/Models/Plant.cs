@@ -9,9 +9,12 @@ public class Plant
     
     [Required]
     [StringLength(100)]
-    public string Genus { get; set; }
+    public string CustomName { get; set; }
     
     [Required]
+    [StringLength(100)]
+    public string Genus { get; set; }
+    
     [StringLength(100)]
     public string Species { get; set; }
     
@@ -39,12 +42,14 @@ public class Plant
     
     public bool IsToxic { get; set; }
     
-    public int PlantTypeId { get; set; }
+    public string PlantTypeId { get; set; }
     public PlantType PlantType { get; set; }
     
     public string SoilTypeId { get; set; }
     public SoilType SoilType { get; set; }
     
+    [DataType(DataType.DateTime)]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
     public DateTime DateCreated { get; set; } = DateTime.UtcNow;
     
     public DateTime DateUpdated { get; set; }
