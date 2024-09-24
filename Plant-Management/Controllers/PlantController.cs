@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Plant_Management.Models;
+using Plant_Management.Utilities;
 
 namespace Plant_Management.Controllers;
 
@@ -17,9 +18,14 @@ public class PlantController : ControllerBase
     
     // GET: api/plant
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Plant>>> GetPlants()
+    public async Task<ActionResult<PagedResult<Plant>>> GetPlants([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        var plants = await _repository.GetAllPlantsAsync();
+        if (pageNumber <= 0 || pageSize <= 0)
+        {
+            return BadRequest("PageNumber and PageSize must be greater than 0");
+        }
+        
+        var plants = await _repository.GetAllPlantsPaginatedAsync(pageNumber, pageSize);
         return Ok(plants);
     }
     
@@ -50,7 +56,7 @@ public class PlantController : ControllerBase
     
     // PUT: api/plant/{id}
     [HttpPut("{id}")]
-    public async Task<ActionResult<Plant>> PutPlant([FromBody] string id, Plant plant)
+    public async Task<ActionResult<Plant>> PutPlant(string id, Plant plant)
     {
         if (!ModelState.IsValid)
         {

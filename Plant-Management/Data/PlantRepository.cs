@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Plant_Management.Utilities;
 
 namespace Plant_Management.Models;
 
@@ -11,9 +12,20 @@ public class PlantRepository
         _context = context;
     }
 
-    public async Task<List<Plant>> GetAllPlantsAsync()
+    public async Task<PagedResult<Plant>> GetAllPlantsPaginatedAsync(int pageNumber, int pageSize)
     {
-        return await _context.Plants.ToListAsync();
+        var totalCount = await _context.Plants.CountAsync();
+        
+        var items = await _context.Plants
+            .Skip(pageSize * (pageNumber - 1))
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PagedResult<Plant>
+        {
+            TotalCount = totalCount,
+            Items = items,
+        };
     }
 
     public async Task<Plant> GetPlantByIdAsync(string id)
