@@ -5,13 +5,13 @@ namespace Plant_Management.Models;
 public class Location
 {
     [Key]
-    public string Id { get; set; }
+    public string Id { get; init; }
     
     [Required]
     [StringLength(100)]
     public string Name { get; set; }
-    
-    public string Description { get; set; }
+
+    public string? Description { get; set; } = string.Empty;
     
     public ICollection<Plant> Plants { get; set; }
 }

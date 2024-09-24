@@ -5,7 +5,7 @@ namespace Plant_Management.Models;
 public class PlantType
 {
     [Key]
-    public string Id { get; set; }
+    public string Id { get; init; }
     
     [Required]
     [StringLength(100)]

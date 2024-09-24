@@ -1,14 +1,15 @@
 using System.ComponentModel.DataAnnotations;
+using Plant_Management.Validation;
 
 namespace Plant_Management.Models;
 
 public class Plant
 {
     [Key]
-    public string Id { get; set; }
+    public string Id { get; init; } = Guid.NewGuid().ToString();
     
-    [Required]
-    [StringLength(100)]
+    [Required(ErrorMessage = "Custom name is required")]
+    [StringLength(100, ErrorMessage = "Custom name cannot exceed 100 characters")]
     public string CustomName { get; set; }
     
     [StringLength(100)]
@@ -33,6 +34,7 @@ public class Plant
     [Range(0, 10)]
     public double? MoistureLevel { get; set; }
     
+    [TemperatureRange]
     public double? MinTemperature { get; set; }
     
     public double? MaxTemperature { get; set; }
@@ -41,13 +43,13 @@ public class Plant
     
     public bool? IsToxic { get; set; }
     
-    public string PlantTypeId { get; set; }
+    public string? PlantTypeId { get; set; }
     
-    public string SoilTypeId { get; set; }
+    public string? SoilTypeId { get; set; }
     
     [DataType(DataType.DateTime)]
     [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-    public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+    public DateTime DateCreated { get; init; } = DateTime.UtcNow;
     
     public DateTime DateUpdated { get; set; } = DateTime.UtcNow;
     

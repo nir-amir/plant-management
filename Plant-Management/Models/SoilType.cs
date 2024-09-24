@@ -5,7 +5,7 @@ namespace Plant_Management.Models;
 
 public class SoilType
 {
-    public string Id { get; set; }
+    public string Id { get; init; }
 
     [Required] [StringLength(100)] public string Name { get; set; } = string.Empty;
     

@@ -23,7 +23,6 @@ namespace Plant_Management.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -93,11 +92,9 @@ namespace Plant_Management.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("PlantTypeId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SoilTypeId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Species")
@@ -125,9 +122,9 @@ namespace Plant_Management.Migrations
                             CommonName = "Fiddle Leaf Fig",
                             Cultivar = "Standard",
                             CustomName = "Fiddle Leaf Fig",
-                            DateCreated = new DateTime(2024, 9, 24, 9, 28, 31, 103, DateTimeKind.Utc).AddTicks(6460),
+                            DateCreated = new DateTime(2024, 9, 24, 11, 40, 23, 734, DateTimeKind.Utc).AddTicks(9290),
                             DateExpired = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateUpdated = new DateTime(2024, 9, 24, 9, 28, 31, 103, DateTimeKind.Utc).AddTicks(6460),
+                            DateUpdated = new DateTime(2024, 9, 24, 11, 40, 23, 734, DateTimeKind.Utc).AddTicks(9290),
                             Genus = "Ficus",
                             Height = 1.5,
                             HumidityPreference = "Medium",
@@ -211,15 +208,11 @@ namespace Plant_Management.Migrations
 
                     b.HasOne("Plant_Management.Models.PlantType", null)
                         .WithMany("Plants")
-                        .HasForeignKey("PlantTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlantTypeId");
 
                     b.HasOne("Plant_Management.Models.SoilType", null)
                         .WithMany("Plants")
-                        .HasForeignKey("SoilTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SoilTypeId");
                 });
 
             modelBuilder.Entity("Plant_Management.Models.Location", b =>

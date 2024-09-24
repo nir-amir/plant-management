@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Plant_Management.Models;
 
@@ -24,7 +25,7 @@ public class PlantController : ControllerBase
     
     // GET: api/plant/{id}
     [HttpGet("{id}")]
-    public async Task<ActionResult<Plant>> GetPlant(string id)
+    public async Task<ActionResult<Plant>> GetPlant([FromBody] string id)
     {
         var plant = await _repository.GetPlantByIdAsync(id);
         if (plant == null)
@@ -36,16 +37,26 @@ public class PlantController : ControllerBase
     
     // POST: api/plant
     [HttpPost]
-    public async Task<ActionResult<Plant>> PostPlant(Plant plant)
+    public async Task<ActionResult<Plant>> PostPlant([FromBody] Plant plant)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
         await _repository.CreatePlantAsync(plant);
         return CreatedAtAction(nameof(GetPlant), new { id = plant.Id }, plant);
     }
     
     // PUT: api/plant/{id}
     [HttpPut("{id}")]
-    public async Task<ActionResult<Plant>> PutPlant(string id, Plant plant)
+    public async Task<ActionResult<Plant>> PutPlant([FromBody] string id, Plant plant)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
         if (id != plant.Id)
         {
             return BadRequest();
@@ -57,7 +68,7 @@ public class PlantController : ControllerBase
     
     // DELETE: api/plant/{id}
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Plant>> DeletePlant(string id)
+    public async Task<ActionResult<Plant>> DeletePlant([FromBody] string id)
     {
         var plant = await _repository.GetPlantByIdAsync(id);
         if (plant == null)
