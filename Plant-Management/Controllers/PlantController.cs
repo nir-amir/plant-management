@@ -18,14 +18,19 @@ public class PlantController : ControllerBase
     
     // GET: api/plant
     [HttpGet]
-    public async Task<ActionResult<PagedResult<Plant>>> GetPlants([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    public async Task<ActionResult<PagedResult<Plant>>> GetPlants(
+        int pageNumber = 1, 
+        int pageSize = 10,
+        string? genus = null,
+        string? species = null,
+        string? customName = null)
     {
         if (pageNumber <= 0 || pageSize <= 0)
         {
             return BadRequest("PageNumber and PageSize must be greater than 0");
         }
         
-        var plants = await _repository.GetAllPlantsPaginatedAsync(pageNumber, pageSize);
+        var plants = await _repository.GetAllPlantsPaginatedAsync(pageNumber, pageSize, genus, species, customName);
         return Ok(plants);
     }
     
@@ -74,7 +79,7 @@ public class PlantController : ControllerBase
     
     // DELETE: api/plant/{id}
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Plant>> DeletePlant([FromBody] string id)
+    public async Task<ActionResult<Plant>> DeletePlant(string id)
     {
         var plant = await _repository.GetPlantByIdAsync(id);
         if (plant == null)

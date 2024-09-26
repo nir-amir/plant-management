@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Plant_Management.Utilities;
 
@@ -12,11 +13,34 @@ public class PlantRepository
         _context = context;
     }
 
-    public async Task<PagedResult<Plant>> GetAllPlantsPaginatedAsync(int pageNumber, int pageSize)
+    public async Task<PagedResult<Plant>> GetAllPlantsPaginatedAsync(
+        int pageNumber, 
+        int pageSize, 
+        string? genus, 
+        string? species, 
+        string? customName)
     {
-        var totalCount = await _context.Plants.CountAsync();
+        var query = _context.Plants.AsQueryable();
+
+        if (!string.IsNullOrEmpty(genus))
+        {
+            query = query.Where(plant => plant.Genus == genus);
+        }
         
-        var items = await _context.Plants
+        if (!string.IsNullOrEmpty(species))
+        {
+            query = query.Where(plant => plant.Species == species);
+        }
+        
+        if (!string.IsNullOrEmpty(customName))
+        {
+            query = query.Where(plant => plant.CustomName == customName);
+        } 
+        
+        var totalCount = await query.CountAsync();
+        
+        var items = await query
+            .OrderBy(plant => plant.CustomName)
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToListAsync();
