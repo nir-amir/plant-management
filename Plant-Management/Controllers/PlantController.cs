@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Plant_Management.Models;
 using Plant_Management.Utilities;
