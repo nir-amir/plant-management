@@ -29,15 +29,15 @@ public class Plant
     public double Width { get; set; }
     
     [Range(0, 100)]
-    public double? LightLevel { get; set; }
+    public int? LightLevel { get; set; }
     
     [Range(0, 10)]
-    public double? MoistureLevel { get; set; }
+    public int? MoistureLevel { get; set; }
     
     [TemperatureRange]
-    public double? MinTemperature { get; set; }
+    public int? MinTemperature { get; set; }
     
-    public double? MaxTemperature { get; set; }
+    public int? MaxTemperature { get; set; }
     
     public string? HumidityPreference { get; set; }
     
